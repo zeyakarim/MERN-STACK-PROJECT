@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.header{
+  padding: 10px 20px;
+  display: flex;
+  background-color: #eaf5ff;
+}
+.header h1, p{
+  margin: 0;
+}
+
+.header p img{
+  width: 50px;
+  padding-right: 10px;
+}
+.products{
+  padding: 20px;
+  width: 70%;
+  margin: auto;
+}
+
+.product-header{
+  display: flex;
+  justify-content: center;
+}
+.product-box{
+  border-radius: 10px;
+  display: flex;
+  width: 50%;
+  background: #eaf5ff;
+  padding: 10px 20px;
+  margin: 20px;
+}
+input{
+  font-size: 20px;
+  padding: 5px;
+  display: block;
+}
+input:focus{
+  outline: none;
+}
+
+#addProduct{
+  display: none;
+  margin: 20px 0px 50px;
+}
+
+.btn button{
+  font-size: 20px;
+  border: 0;
+  background: #91FF77;
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+.input-btn{
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
+.search{
+  border-radius: 10px;
+}
+.submit{
+  font-size: 19px;
+  border: 0;
+  padding: 10px;
+  border-radius: 10px;
+  background: skyblue;
+  margin-top: 20px;
+}
