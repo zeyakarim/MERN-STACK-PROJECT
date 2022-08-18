@@ -3,12 +3,7 @@ import axios from 'axios';
 
 
 function App() {
-  const [products, searchProduct] = useState([{
-    productName: '',
-    qty: '',
-    price: '',
-    image: ''
-  }])
+  const [products, setProduct] = useState([])
   const [data, searchData] = useState([]);
   const [result, searchResult] = useState([]);
 
@@ -21,16 +16,15 @@ function App() {
       const search = `http://localhost:3001/searchProduct?search=${result}`
       fetch(search)
         .then((response) => response.json())
-        .then((data) => {
-          if(data.length > 0 ){
-            console.log(data);
-            searchData(data);
+        .then((searchProduct) => {
+          if(searchProduct.length > 0 ){
+            console.log(searchProduct);
+            setProduct(searchProduct);
             return;
           }
           console.log('No Product Found');
         })
     }
-    
   },[result])
   
 
@@ -38,23 +32,23 @@ function App() {
     const searchItem = `http://localhost:3001/fetchProduct`
     fetch(searchItem)
     .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      searchData(data);
+    .then((product) => {
+      console.log(product);
+      setProduct(product);
     });
-  },[products]);
+  },[data]);
   
 
 
   function handleChange(event){
-    const {name, value} = event.target;
+    // const {name, value} = event.target;
     
-    searchProduct((prevInput) => {
-      return {
-        ...prevInput,
-        [name]: value
-      }
-    })
+    // searchProduct((prevInput) => {
+    //   return {
+    //     ...prevInput,
+    //     [name]: value
+    //   }
+    // })
   }
 
 
@@ -70,11 +64,13 @@ function App() {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
+    }).then((res) =>{
+     searchData(res.data.product)
     });
   }
 
   function ShowAddProductFrom(e){
-    let showForm = document.getElementById('addProduct');
+    let showForm = document.querySelector('table');
     showForm.style.display = 'block';
    
   }
@@ -83,11 +79,11 @@ function App() {
 
   return (
     <div className="App">
-      <div className="header">
-        <p>
+      <div className="page-header">
+        <p className="header">
           <img src="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/512x512/shopping_cart.png" alt="cart-icon"></img>
         </p>
-        <h1>Shopping Cart</h1>
+        <h1 className="header">Shopping Cart</h1>
       </div>
       <div className="products">
         <div className="product-header">
@@ -95,17 +91,34 @@ function App() {
         </div>
 
         <div id="addProduct">
-        <form method="post" encType='multipart/form-data' onSubmit={handleSubmit} id="form">
-          Name:
-          <input type="text" name="productName" value={products.productName} onChange={handleChange}></input>
-          qty:
-          <input type="number" name="qty" value={products.qty} onChange={handleChange}></input>
-          price:
-          <input type="number" name="price" value={products.price} onChange={handleChange}></input>
-          img:
-          <input type="file" name="image" value={products.image} onChange={handleChange}></input>
-          <button className="submit">Create Products</button>
-        </form>
+          
+            <form method="post" encType='multipart/form-data' onSubmit={handleSubmit} id="form">
+              <table>
+                <tr>
+                  <td>Name:</td>
+                  <td><input type="text" name="productName" onChange={handleChange}></input></td>
+                </tr>
+              
+                <tr>
+                  <td>qty:</td>
+                  <td><input type="number" name="qty" onChange={handleChange}></input></td>
+                </tr>
+
+                <tr>
+                  <td>price:</td>
+                  <td><input type="number" name="price" onChange={handleChange}></input></td>
+                </tr>
+              
+                <tr>
+                  <td>img:</td>
+                  <td><input type="file" name="image" onChange={handleChange}></input></td>
+                </tr>
+              
+                <button className="submit">Create Products</button>
+              </table>
+            </form>
+          
+          
         </div>
 
         <div className="input-btn">
@@ -120,13 +133,13 @@ function App() {
         
 
         <div className="product-container">
-          {data.map((product) => (
+            {products.map((product) => (
             <div style={{display:'flex'}} className="product-box">
               <div>
                 <p><img src={`http://localhost:3001${product.image}`} style={{width:200}} alt="product-img"></img></p>
               </div>
 
-              <div key={product._id} style={{margin: '0px 30px'}}>
+              <div key={product._id} style={{margin: '5px 30px'}}>
                 <h2>{product.productName}</h2>
                 <p>Qty: {product.qty}</p>
                 <p>Price: {product.price}</p>
