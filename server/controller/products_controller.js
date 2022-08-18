@@ -9,7 +9,7 @@ module.exports.product = async function(req,res) {
         console.log(req.body);
         
         Product.uploadedProduct(req,res, async function(err){
-            console.log(req.body);
+            // console.log(req.body);
             if(err){
                 console.log('***Multer Error:',err);
             }
@@ -19,24 +19,19 @@ module.exports.product = async function(req,res) {
                 price: req.body.price
             });
 
-            console.log(req.file);
+            // console.log(req.file);
             if(req.file){
                 // first it will go ProductSchema.uploadedProduct function and save 
                 // the file destination and filename in the localstorage/multer storage
                 product.image = Product.productPath + '/' + req.file.filename;
             }
             product.save();
+            console.log(product)
          
-            if(req.xhr){
-                return res.status(200).json({
-                    data: {
-                        product: product
-                    },
-                    message: 'Product Created!'
-                });
-            }
+            res.json({product: product});
 
-            return res.redirect('back');
+
+            // return res.redirect('back');
         });
     }catch(err){
         console.log(err.message);
@@ -66,9 +61,7 @@ module.exports.searchProduct = async function(req,res){
         if(req.query.search.length > 1){
             const regex = new RegExp(escapeRegex(req.query.search),'gi');
             // console.log('hello');
-            let found = Product.find({productName: {$regex: regex}}) 
-
-            found.then(foundProduct => res.json(foundProduct));
+            let found = Product.find({productName: {$regex: regex}}).then(foundProduct => res.json(foundProduct));
 
         }else{
             Product.find({}) 
